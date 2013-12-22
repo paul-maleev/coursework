@@ -4,14 +4,62 @@
 <html>
 <head>
     <title>Результаты опроса</title>
-    <script type="text/javascript" src="js/jquery.js"></script>
+    <link href="/static/js/examples/examples.css" rel="stylesheet" type="text/css">
+      <link href="/static/css/mystyle.css" rel="stylesheet" type="text/css">
+
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="/static/js/jquery.flot.categories.js"></script>
+    	<script type="text/javascript">
+
+
+	$(function() {
+
+		var data = [ ["Канн", {{ results.A }}], ["Венеция", {{ results.B }}],
+            ["Париж", {{ results.C }}], ["Берлин", {{ results.D }}]];
+
+		$.plot("#placeholder", [ data ],  {
+			series: {
+				bars: {
+					show: true,
+					barWidth: 0.6,
+					align: "center"
+				}
+			},
+			xaxis: {
+				mode: "categories",
+                ticks: [[0,"Канн"],[1,"Венеция"],[2,"Париж"],[3,"Берлин"]],
+                tickSize: 1,
+
+                tickDecimals: 0,
+				tickLength: 0
+			}
+		});
+
+		// Add the Flot version string to the footer
+
+		$("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+	});
+
+
+	</script>
 </head>
 <body>
-<h1>Результаты опроса</h1>
-<br>Всего голосов: {{ results.total }}
-<br>{{ results.A }}  Канн
-<br>{{ results.B }}  Венеция
-<br>{{ results.C }}  Париж
-<br>{{ results.D }}  Берлин
+<center><h1>Результаты опроса</h1></center>
+<div id="content">
+
+		<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder"></div>
+		</div>
+
+<p>Всего голосов: {{ results.total }}
+<br>Канн - {{ results.A }}
+<br>Венеция - {{ results.B }}
+<br>Париж - {{ results.C }}
+<br>Берлин - {{ results.D }}
+<br><a href="javascript: history.go(-1)">Назад к опросу</a>
+</p>
+
 </body>
 </html>
